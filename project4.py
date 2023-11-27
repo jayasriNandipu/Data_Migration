@@ -516,7 +516,7 @@ print("------MEDB_CLM_GRP--\n",MEDB_CLM_GRP.shape)
 print("------MEDB_CLM_GRP--\n",MEDB_CLM_GRP)
 print("------MEDB_CLM_GRP--\n",MEDB_CLM_GRP.columns)
 
-#----------------update
+#----------------merge---
 clm_grp_member_current_merge=MEDB_CLM_GRP.merge(MEMBER_CURRENT,how="inner",on=["PATIENT_ID","GROUP_OPERATIONAL_ID"]
 print("----------clm_grp_member_current_merge---\n",clm_grp_member_current_merge.shape)
 print("----------clm_grp_member_current_merge---\n",clm_grp_member_current_merge)
@@ -526,14 +526,16 @@ clm_grp_member_current_merge_v1=clm_grp_member_current_merge[(clm_grp_member_cur
                                                            (clm_grp_member_current_merge["END_DTE"]>DATE) &
                                                            (clm_grp_member_current_merge["END_EFF_DTE"]>DATE) &
                                                              (clm_grp_member_current_merge["CURRENT_OPERATIONAL_ROW_IND"]=="Y")]
+print("----clm_grp_member_current_merge_v1--\n",clm_grp_member_current_merge_v1.shape)
 
+#---------------set conditions----
 MEDB_CLM_GRP_update=clm_grp_member_current_merge_v1[clm_grp_member_current_merge_v1["ELIG_FLAG"]=="Y"]
 
 print("----------MEDB_CLM_GRP_update---\n",MEDB_CLM_GRP_update.shape)
 print("----------MEDB_CLM_GRP_update---\n",MEDB_CLM_GRP_update)
 
-
-#----------------update
+#---------------------7a second part----------------
+#----------------merge2---
 clm_grp_dod_member_current_merge=MEDB_CLM_GRP.merge(DOD_MEMBER_CURRENT,how="inner",on=["PATIENT_ID","GROUP_OPERATIONAL_ID"]
 print("----------clm_grp_dod_member_current_merge---\n",clm_grp_dod_member_current_merge.shape)
 print("----------clm_grp_dod_member_current_merge---\n",clm_grp_dod_member_current_merge)
@@ -548,25 +550,32 @@ MEDB_CLM_GRP_update2=clm_grp_dod_member_current_merge_v1[clm_grp_dod_member_curr
 print("----------MEDB_CLM_GRP_update2---\n",MEDB_CLM_GRP_update2.shape)
 print("----------MEDB_CLM_GRP_update2---\n",MEDB_CLM_GRP_update2)
 
-
+#------------------appending---
 MEDB_CLM_GRP=pd.concat([MEDB_CLM_GRP_update,MEDB_CLM_GRP_update2],ignore_index=True)
 print("----------MEDB_CLM_GRP---\n",MEDB_CLM_GRP.shape)
 print("----------MEDB_CLM_GRP---\n",MEDB_CLM_GRP)
  #-------------------7 a completed----
 
-#-----------------7 b started------
+#----------------------------------------------------7 b started------
+#--------------replace----------
 MEMBER_CURRENT_lst=MEMBER_CURRENT.PATIENT_ID[:5].tolist()
 MEDB_CLM_GRP_lst=MEDB_CLM_GRP.PATIENT_ID[:5].tolist()
 MEMBER_CURRENT_v1=MEMBER_CURRENT.replace(MEMBER_CURRENT_lst,MEDB_CLM_GRP_lst)
-
+print("-----MEMBER_CURRENT_v1---\n",MEMBER_CURRENT_v1.shape)
 #----merge1-------
 current_grp_merge=MEMBER_CURRENT_v1.merge(MEDB_CLM_GRP,how='inner',on='PATIENT_ID')
+print("-----current_grp_merge---\n",current_grp_merge.shape)
+print("-----current_grp_merge---\n",current_grp_merge.shape)
+print("-----current_grp_merge---\n",current_grp_merge.shape)
 
 #------------------------WHERE CONDITIONS----------------
-current_grp_merge=current_grp_merge[(current_grp_merge["EFF_DTE"]<DATE+1) &
-                                                           (current_grp_merge["END_DTE"]>DATE) &
-                                                           (current_grp_merge["END_EFF_DTE"]>DATE) &
-                                                             (current_grp_merge["CURRENT_OPERATIONAL_ROW_IND"]=="Y")]
+current_grp_merge_final=current_grp_merge[(current_grp_merge["ELIG_FLAG"]=="N") &
+                                     (current_grp_merge["EFF_DTE"]<DATE+1) &
+                                     (current_grp_merge["END_DTE"]>DATE) &
+                                     (current_grp_merge["END_EFF_DTE"]>DATE) &
+                                     (current_grp_merge["CURRENT_OPERATIONAL_ROW_IND"]=="Y")]
+print("-----current_grp_merge_final---\n",current_grp_merge_final.shape)
+
 
 
 
