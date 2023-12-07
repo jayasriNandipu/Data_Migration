@@ -1018,8 +1018,7 @@ GRPCHNL_ITEMRH_CLIENTRH_MERGE3_FIL3.rename(columns={"FORMULARY_ID_V1":'FORMULARY
 GRPCHNL_ITEMRH_CLIENTRH_MERGE_FIL2_2=GRPCHNL_ITEMRH_CLIENTRH_MERGE_FIL2[GRPCHNL_ITEMRH_CLIENTRH_MERGE_FIL2['FORMULARY_ID']='']
 
 
-#-----------------LOGIC 8 B-------------------
-
+#-----------------LOGIC 8 B--------------
 
 # #-------------update----logic 8 starts---9:21----------8 competed at 9:51----------
 # #---------------------------------lo gic 9 starts 9:58--------vedio ends in 10------
