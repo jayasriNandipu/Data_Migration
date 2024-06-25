@@ -364,7 +364,6 @@ print("-----MEDB_WEDGET_WORK----5B----\n",MEDB_WEDGET_WORK.columns)
 # # -----------------logic5c-------------------
 # # -----------------logic5c-------------------
 import pandas as pd
-#-------storing output data into excel file----
 MEDB_WEDGET_WORK=pd.read_excel(r"C:\jaya sri\project 4\Business logic\InputFiles_UPDATED.xlsx",sheet_name="MEDB_WEDGET_WORK")
 print("----MEDB_WEDGET_WORK-----------------------------\n",MEDB_WEDGET_WORK.shape)
 print("----MEDB_WEDGET_WORK-----------------------------\n",MEDB_WEDGET_WORK.columns)
